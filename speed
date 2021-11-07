@@ -1,0 +1,728 @@
+package checks;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
+import flameanticheat.Check;
+import flameanticheat.HackType;
+import flameanticheat.Main;
+import utils.UtilBlock;
+import utils.Utile;
+import utils.ViolationManager;
+
+public class BunnyHop implements Listener {
+
+	private double a = 0.004999999999999893D;
+	private double b = 0.4050000011920929D;
+	private double c = 0.3852000000000002D;
+	private double d = 0.41000000000000014D;
+	private double eqe = 0.4199999868869684D;
+	private double gyp = 0.001599998474120845D;
+	private double gypp = 0.0015999984741199569D;
+	private double qqe = 0.0799999999999983D;
+	private double aaewq = 0.4200000000000017D;
+	private double x = 0.07742000150680894D;
+	private double y = 0.18830838090094915D;
+	private double z = 0.15427160447922006D;
+	private double x1 = 0.1061819845741683D;
+	private double y1 = 0.13733163822715255D;
+	private double z1 = 0.20363089402954415D;
+	private double x2 = 0.32046000623702753D;
+	private double y2 = 0.17336799395751257D;
+	private double z2 = 0.3994D;
+	private double x3 = 0.1683558135045473D;
+	private double y3 = 0.41999979999999937D;
+	private double z3 = 0.41500000000000625D;
+	private double x4 = 0.4273552979480115D;
+	private double y5 = 0.054358321450195035D;
+	private double z5 = 0.03349562155096919D;
+	private double x6 = 0.15781920370909575D;
+	private double y6 = 0.021599998474115978D;
+	private double z6 = -0.030001112012939753D;
+	private double x7 = -0.40000000000000563D;
+	private double y7 = -0.39939999580383295D;
+	private double z7 = -0.07919626451096916D;
+	private double x8 = 0.07486876515174855D;
+	private double y8 = -0.16089172853057218D;
+	private double z8 = 0.05797900052765214D;
+	private double x9 = -0.34250000119209284D;
+	private double y9 = -0.3851000070571899D;
+	private double z9 = -0.43999999999999767D;
+	private double x10 = -0.2999999999999971D;
+	private double y11 = -0.14477328182606183D;
+	private double z11 = -0.3851999999999975D;
+	private double x12 = -0.40999999999999653D;
+	private double y12 = -0.4050000000000011D;
+	private double z12 = -0.3184999934598806D;
+	private double x13 = 0.06658563950590234D;
+	private double y13 = -0.004999999999995452D;
+	private double z13 = 0.004999999999995452D;
+	private double x14 = -0.819399986886978D;
+	private double y14 = -0.39930000901222223D;
+	private double z14 = -0.34300000000000347D;
+	private double x15 = -0.3425000000000011D;
+	private double y15 = -0.38509999999999417D;
+	private double z15 = 0.3210184085741758D; /// UWAZAJ NA FLAGI
+	private double x16 = -0.1500000000000057D;
+	private double y16 = -0.3475099936342189D;
+
+	Main m;
+
+	public BunnyHop(Main main) {
+		this.m = main;
+	}
+	@EventHandler
+	public void onSpeed(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.hasPotionEffect(PotionEffectType.SPEED)) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.a || yDiff == this.b || yDiff == this.c || yDiff == this.d || yDiff == this.eqe || yDiff == this.gyp || yDiff == this.gypp || yDiff == this.qqe || yDiff == this.aaewq) {
+			if(Utile.getConfig("Speed.TypeA", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cA§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeA", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onSpeedB(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.x || yDiff == this.y || yDiff == this.z || yDiff == this.x1 || yDiff == this.y1) {
+			if(Utile.getConfig("Speed.TypeB", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cB§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeB", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onSpeedD(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.z1) {
+			if(Utile.getConfig("Speed.TypeC", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cC§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeC", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onSpeedE(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.x2 || yDiff == this.y2) {
+			if(Utile.getConfig("Speed.TypeD", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cD§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeD", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onSpeedF(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.z2 || yDiff == this.x3) {
+			if(Utile.getConfig("Speed.TypeE", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cE§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeE", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onSpeedG(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.y3) {
+			if(Utile.getConfig("Speed.TypeF", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cF§7] (x" + ViolationManager.addViolation(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeF", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onSpeedH(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.z3) {
+			if(Utile.getConfig("Speed.TypeG", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cG§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeG", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onSpeedI(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getX() - e.getTo().getX());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.x4 || yDiff == this.y5 || yDiff == this.z5 || yDiff == this.x6) {
+			if(Utile.getConfig("Speed.TypeH", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cH§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeH", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onSpeedJg(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.y6) {
+			if(Utile.getConfig("Speed.TypeJ", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cJ§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeJ", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onSpeed3(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		double x = Math.nextAfter(e.getFrom().getY() - e.getTo().getY(), e.getFrom().getYaw() - e.getTo().getYaw());
+		if(x == this.z6 || x == this.x7 || x == this.y7 || x == this.z7 || x == this.x8 || x == this.y8 || x == this.z8 || x == this.x9 || x == this.y9 || x == this.z9 || x == this.x10 || x == this.y11 || x == this.z11 || x == this.x12 || x == this.y12 || x == this.z12 || x == this.x13 || x == this.y13 || x == this.z13) {
+			if(Utile.getConfig("Speed.TypeK", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cK§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeK", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void on534(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		double x = Math.nextAfter(e.getFrom().getY() - e.getTo().getY(), e.getFrom().getYaw() - e.getTo().getYaw());
+		if(x == this.x14) {
+			if(Utile.getConfig("Speed.TypeL", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cL§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeL", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void on53fb54(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		double x = Math.nextAfter(e.getFrom().getY() - e.getTo().getY(), e.getFrom().getYaw() - e.getTo().getYaw());
+		if(x == this.y14 || x == this.z14 || x == this.x15 || x == this.y15 || x == this.z15 || x == this.x16 || x == this.y16) {
+			if(Utile.getConfig("Speed.TypeM", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cM§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeM", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void on53fb5ff4(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		Location from = e.getFrom();
+		Location to = e.getTo();
+		Vector vec = to.toVector().setY(0.0D);
+		double i = vec.distance(from.toVector().setY(0.0D));
+		if(p.hasPotionEffect(PotionEffectType.SPEED)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isInsideVehicle()) {
+			return;
+		}
+		if(UtilBlock.isOnIce(p) && p.isOnGround() && i > 0.719D || UtilBlock.isOnIce(p) && p.isOnGround() && i > 0.553D && !p.isSprinting()) {
+			if(Utile.getConfig("IceSpeed.TypeA", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.IceSpeed + " Type §7[§cA§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+						return;
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("IceSpeed.TypeA", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+    package checks;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
+import flameanticheat.Check;
+import flameanticheat.HackType;
+import flameanticheat.Main;
+import utils.Utile;
+import utils.ViolationManager;
+
+public class Speed implements Listener {
+
+	Main m;
+	
+	public Speed(Main main) {
+		this.m = main;
+	}
+	@EventHandler
+	public void onSpeedJ(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		Location from = e.getFrom();
+		Location to = e.getTo();
+		Vector vec = to.toVector().setY(0.0D);
+		double i = vec.distance(from.toVector().setY(0.0D));
+		if(from.getY() < to.getY()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.hasPotionEffect(PotionEffectType.SPEED)) {
+			return;
+		}
+		if(p.isInsideVehicle()) {
+			return;
+		}
+		if(p.getItemInHand().getType().equals(Material.FIREWORK_CHARGE)) {
+			return;
+		}
+		if(i >= 0.56D) {
+			if(Utile.getConfig("Speed.TypeI", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.speed.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Speed + " Type §7[§cI§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Speed.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Speed.TypeI", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.speed.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+}
