@@ -1,0 +1,771 @@
+package checks;
+
+import java.util.ArrayList;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
+
+import flameanticheat.Check;
+import flameanticheat.HackType;
+import flameanticheat.Main;
+import utils.UtilBlock;
+import utils.UtilMath;
+import utils.Utile;
+import utils.ViolationManager;
+
+public class Fly implements Listener {
+
+	public boolean lastLastOnGround;
+	public boolean lastOnGround;
+
+	public static ArrayList<Player> effects = new ArrayList<Player>();
+	public static ArrayList<Player> kick = new ArrayList<Player>();
+
+	private double x = 9.999993721976352E-9D;
+	private double y = 0.2500000000000142D;
+	private double z = 1.4210854715202004E-14D;
+	private double x1 = 0.030000000000001137D;
+	private double y1 = 0.078400001525873834D;
+	private double z1 = 93.9D;
+	private double x2 = 0.015000000000000568D;
+	private double z2 = 95.14918707874469D;
+	private double x3 = 0.2990000000000066D;
+	private double y3 = 1.8816000366210943D;
+	private double z3 = 906.0D;
+	private double x4 = 905.580000013113D;
+	private double y4 = 905.2468000194788D;
+	private double z4 = 0.06857661295958906D;
+	private double x5 = 0.15000000596046448D;
+	private double y5 = 0.39000001549720764D;
+	private double z5 = 0.24000000953674316D;
+	private double x6 = 0.39813600455140374D;
+	private double y6 = 1.000000082740371E-8D;
+	private double z6 = 0.30000001192092896D;
+	private double y7 = 0.7800000309944153D;
+	private double z7 = 0.4019999980926485D;
+	private double x8 = 0.31477328778653657D;
+	private double y8 = 0.14000000059604645D;
+	private double z8 = 0.2800000011920929D;
+	private double x9 = 9.999999406318238E-8D;
+	private double y9 = 0.8399999737739563D;
+	private double z9 = 0.23499999940395355D;
+	private double x10 = 0.4699999988079071D;
+	private double y10 = 0.07999999999998408D;
+	private double x11 = 0.2200000047683659D;
+	private double y11 = 0.08299999999999841D;
+	private double z11 = 0.4019999980926485D;
+	private double x12 = 1.973077596630901E-4D;
+	private double y12 = 7.892310386523604E-4D;
+	private double z12 = 0.01223691150448758D;
+	private double x13 = 0.46984067179872113D;
+	private double y13 = 0.4696870789128411D;
+	private double xx = -0.9999999999999999D;
+	private double yy = 0.9999999999999999D;
+	private double zz = -0.15999999642372129D;
+	private double xf = 0.15999999642372129D;
+	private double ff = -0.16520932186931245D;
+	private double fs = -0.3519999980926513D;
+	private double fg = 0.17486768115360005D;
+	private double fd = 0.1895260051956171D;
+	private double kk = -1.0000000003174135E-5D;
+	private double cc = 0.4199999868869781D;
+	private double x14 = -0.09000000357627867D;
+	private double y14 = -0.2476995197008591D;
+	private double z14 = -0.09769951374039464D;
+	private double x15 = -1.4999999999999998D;
+	private double y15 = 1.4999999999999998D;
+	private double z15 = 3.9000000000000052D;
+	private double x16 = -1.3500000238418577D;
+	private double y16 = -3.510000061988833D;
+	private double z16 = -1.6020000159740417D;
+	private double x17 = 1.3500000238418577D;
+	private double y17 = 2.9999999999999996D;
+	private double z17 = -0.33360760956603025D;
+	private double x18 = 0.447497896449834211D;
+	
+	Main m;
+
+	public Fly(Main main) {
+		this.m = main;
+	}
+	@EventHandler
+	public void onFlyC(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(UtilBlock.isSwimming(p)) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff >= 2.822187221377696) {
+			return;
+		}
+		if(yDiff == this.x || yDiff == this.z6 || yDiff == this.y7 || yDiff == this.z7 || yDiff == this.x8 || yDiff == this.y8 || yDiff == this.z8) {
+			if(Utile.getConfig("Fly.TypeA", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cA§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeA", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFly(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.y || yDiff == this.z || yDiff == this.y9 || yDiff == this.x9 || yDiff == this.z9 || yDiff == this.x10) {
+			if(Utile.getConfig("Fly.TypeB", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cB§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeB", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyB(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.x1 || yDiff == this.y1 || yDiff == this.y10 || yDiff == this.x11 || yDiff == this.y11) {
+			if(Utile.getConfig("Fly.TypeC", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cC§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeC", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyV(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.z1 || yDiff == this.x2 || yDiff == this.z2 || yDiff == this.z11 || yDiff == this.x12 || yDiff == this.y12) {
+			if(Utile.getConfig("Fly.TypeD", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cD§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeD", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyVf(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.x3) {
+			if(Utile.getConfig("Fly.TypeE", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cE§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeE", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyVfef(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if (yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.y3) {
+			if(Utile.getConfig("Fly.TypeF", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cF§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeF", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyfef(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.z3 || yDiff == this.x4 || yDiff == this.y4 || yDiff == this.z4) {
+			if(Utile.getConfig("Fly.TypeG", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cG§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.getViolations(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeG", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyH(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(UtilBlock.isOnLadder(p)) {
+			return;
+		}
+		if(UtilBlock.isOnVine(p)) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.x5 || yDiff == this.y5 || yDiff == this.z5 || yDiff == this.x6) {
+			if(Utile.getConfig("Fly.TypeH", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cH§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeH", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyfH(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getY() - e.getTo().getY());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.y6) {
+			if(Utile.getConfig("Fly.TypeI", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cI§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeI", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onF(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.isDead()) {
+			return;
+		}
+		if(UtilBlock.isNearStair(p)) {
+			return;
+		}
+		if(UtilBlock.isNearSlab(p)) {
+			return;
+		}
+		if(UtilBlock.isNearCrimson(p)) {
+			return;
+		}
+		boolean OnGround = UtilMath.isNearGround(e.getTo());
+		boolean lastOnGround = this.lastOnGround;
+		this.lastOnGround = OnGround;
+		boolean lastLastOnGround = this.lastLastOnGround;
+		this.lastLastOnGround = lastOnGround;
+		if(!lastLastOnGround && !OnGround && !lastOnGround && p.isOnGround() && UtilMath.playerMoveVec(e.getFrom().toVector(), e.getTo().toVector()) > 0.6D) {
+			if(Utile.getConfig("Fly.TypeJ", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cJ§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeJ", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyffH(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double yDiff = Math.abs(e.getFrom().getX() - e.getTo().getX());
+		if(yDiff == 0.0D) {
+			return;
+		}
+		if(yDiff == this.z12 || yDiff == this.x13 || yDiff == this.y13) {
+			if(Utile.getConfig("Fly.TypeK", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cK§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeK", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onFlyfffH(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		double xz = Math.nextAfter(e.getFrom().getY() - e.getTo().getY(), e.getFrom().getYaw() - e.getTo().getYaw());
+		if(xz == this.xx || xz == this.yy || xz == this.zz || xz == this.xf || xz == this.ff || xz == this.fs || xz == this.fg || xz == this.fd || xz == this.kk || xz == this.cc) {
+			if(Utile.getConfig("Fly.TypeL", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cL§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeL", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@EventHandler
+	public void onSfr(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.isDead()) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		double x = Math.nextAfter(e.getFrom().getY() - e.getTo().getY(), e.getFrom().getYaw() - e.getTo().getYaw());
+		if(x == this.x14 || x == this.y14 || x == this.z14 || x == this.x15 || x == this.y15 || x == this.z15 || x == this.x16 || x == this.y16 || x == this.z16 || x == this.x17 || x == this.y17 || x == this.z17 || x == this.x18) {
+			if(Utile.getConfig("Fly.TypeM", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cM§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeM", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void fergfdg44(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(p.getGameMode().equals(GameMode.CREATIVE)) {
+			return;
+		}
+		if(p.isFlying()) {
+			return;
+		}
+		if(p.isDead()) {
+			return;
+		}
+		if(UtilBlock.isNearStair(p)) {
+			return;
+		}
+		if(UtilBlock.isNearSlab(p)) {
+			return;
+		}
+		if(UtilBlock.isNearCrimson(p)) {
+			return;
+		}
+		if(p.hasPotionEffect(PotionEffectType.SPEED)) {
+			return;
+		}
+		boolean OnGround = UtilMath.isNearGround2(e.getTo());
+		boolean lastOnGround = this.lastOnGround;
+		this.lastOnGround = OnGround;
+		boolean lastLastOnGround = this.lastLastOnGround;
+		this.lastLastOnGround = lastOnGround;
+		if(!lastLastOnGround && !OnGround && !lastOnGround && p.isOnGround() && UtilMath.playerMoveVec(e.getFrom().toVector(), e.getTo().toVector()) >= 0.287D || !lastLastOnGround && !OnGround && !lastOnGround && p.isOnGround() && UtilMath.playerMoveVec(e.getFrom().toVector(), e.getTo().toVector()) >= 0.215D) {
+			if(Utile.getConfig("Fly.TypeN", Boolean.valueOf(true))) {
+				if(Main.options.contains(p)) {
+					if(Main.fly.contains(p)) {
+						Check.onFlag(Utile.getMessage("Flag-Cheat").replace("<player>", p.getName()) + HackType.Fly + " Type §7[§cN§7] (x" + ViolationManager.getViolations(p) + ")");
+						e.setTo(e.getFrom());
+						ViolationManager.addViolation(p);
+					}
+					if(ViolationManager.getViolations(p) == 5) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.5").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 10) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.10").replace("<player>", p.getName()));
+					}
+					if(ViolationManager.getViolations(p) == 15) {
+						Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), Utile.getVLs("Fly.VLs.15").replace("<player>", p.getName()));
+					}
+					if(Utile.getConfig("Fly.TypeN", Boolean.valueOf(false))) {
+						return;
+					}
+					if(!Main.options.contains(p)) {
+						return;
+					}
+					if(!Main.fly.contains(p)) {
+						return;
+					}
+				}
+			}
+		}
+	}
+}
